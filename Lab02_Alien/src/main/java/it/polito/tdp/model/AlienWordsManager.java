@@ -2,7 +2,6 @@ package it.polito.tdp.model;
 
 import java.util.*;
 import static java.util.stream.Collectors.toSet;
-import java.util.stream.Stream;
 
 public class AlienWordsManager
 {
