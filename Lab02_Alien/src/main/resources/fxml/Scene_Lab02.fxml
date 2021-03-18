@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="253.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.alien.FXMLController">
+<BorderPane prefHeight="260.0" prefWidth="508.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.alien.FXMLController">
    <top>
       <Label text="Lab 2 - Alien Translator" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -29,10 +29,10 @@
    <center>
       <VBox alignment="CENTER" fillWidth="false" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" fillHeight="false" spacing="15.0">
+            <HBox alignment="CENTER" fillHeight="false" spacing="20.0">
                <children>
                   <Label text="Alien Text" />
-                  <TextField fx:id="wordsTextField" />
+                  <TextField fx:id="wordsTextField" prefHeight="27.0" prefWidth="183.0" promptText="type ..." />
                   <Button fx:id="translateButton" mnemonicParsing="false" onAction="#handleTranslate" text="Translate">
                      <padding>
                         <Insets bottom="6.0" left="11.0" right="11.0" top="6.0" />
@@ -48,7 +48,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <TextArea fx:id="textArea" editable="false" promptText="Welocme to Alien Dictionary v2021 ..." wrapText="true">
+            <TextArea fx:id="textArea" editable="false" prefHeight="86.0" prefWidth="465.0" promptText="Welcome to Alien Dictionary v2021 ..." wrapText="true">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>

@@ -15,6 +15,9 @@ public abstract class Word
 	public abstract String printTranslations();
 	
 	@Override
+	public abstract String toString();
+	
+	@Override
 	public int hashCode()
 	{
 		final int prime = 31;

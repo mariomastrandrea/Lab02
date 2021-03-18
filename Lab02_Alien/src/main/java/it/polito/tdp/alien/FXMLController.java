@@ -1,13 +1,7 @@
 package it.polito.tdp.alien;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import com.sun.prism.paint.Color;
-
+import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -37,7 +31,9 @@ public class FXMLController
     
     private static final String EMPTY_FIELD = "il campo non puo' essere vuoto!\nInserisci almeno una parola";
     private static final String TOO_MANY_WORDS = "il campo non puo' contenere piu' di 2 parole!";
-    private static final String ONLY_LETTERS = "il campo puo' contenere solo lettere maiuscole o minuscole [a-z,A-Z]!";
+    private static final String ONLY_LETTERS_AND_WILDCARD = "il campo puo' contenere solo lettere maiuscole o minuscole [a-z,A-Z]! ('?' wildcard)";
+    private static final String ONLY_ONE_WILDCARD = "la parola cercata non puo' contenere più di una wildcard['?']";
+    private static final String NO_WILDCARD_ACCEPTED = "le wildcard non possono essere usate nella registrazione di traduzioni!";
     private AlienWordsManager manager;
     
     
@@ -59,8 +55,8 @@ public class FXMLController
     	if(inputText.isBlank())
     		this.displayError(EMPTY_FIELD);
     	
-    	else if(!inputText.matches("[a-zA-Z ]+")) //se vi e' almeno un carattere diverso da lettere e whitespace...
-    		this.displayError(ONLY_LETTERS);
+    	else if(!inputText.matches("[a-zA-Z àèéìòù?]+")) //se vi e' almeno un carattere diverso da lettere, whitespace e wildcard...
+    		this.displayError(ONLY_LETTERS_AND_WILDCARD);
     	
     	else
     	{
@@ -73,17 +69,29 @@ public class FXMLController
     		{
     			case 1:
     				alienWord = words.get(0);
-    				translation = this.manager.getTranslationOf(alienWord);
-    				this.textArea.setText(translation);
+    				long numWildcards = alienWord.chars().filter(c -> c =='?').count();
+    				
+    				if(numWildcards > 1)
+    					this.displayError(ONLY_ONE_WILDCARD);
+    				else 
+    				{
+    					translation = this.manager.getTranslationOf(alienWord);
+    					this.textArea.setText(translation);
+    				}
     				break;
     			case 2:
+    				if(inputText.contains("?"))
+    				{
+    					this.displayError(NO_WILDCARD_ACCEPTED);
+    					break;
+    				}
     				alienWord = words.get(0);
     				translation = words.get(1);
     				boolean added = this.manager.addWord(alienWord, translation);
     				if(added)
-    					this.displayCorrectAddition(alienWord, translation);
+    					this.displayCorrectAddition(alienWord);
     				else
-    					this.displayOverwrite(alienWord);
+    					this.displayWordAlreadyPresent(alienWord, translation);
     				break;
     			default:
     				this.displayError(TOO_MANY_WORDS);
@@ -105,15 +113,16 @@ public class FXMLController
     	this.textArea.setText(String.format("Errore: %s", errorMessage));
     }
     
-    private void displayOverwrite(String overwrittenWord)
+    private void displayWordAlreadyPresent(String alienWord, String translation)
     {
-    	String message = String.format("La parola \"%s\" era gia' presente ed stata sovrascritta!", overwrittenWord);
+    	String message = String.format("*** La traduzione di \"%s\" con \"%s\" era gia' presente e non e' stata sovrascritta! ***", alienWord, translation);
     	this.textArea.setText(message);
     }
     
-    private void displayCorrectAddition(String newAlienWord, String translation)
+    private void displayCorrectAddition(String newAlienWord)
     {
-    	String message = String.format("La parola \"%s\" e' stata aggiunta correttamente al dizionario!\nLa sua traduzione e': %s", newAlienWord, translation);
+    	String message = String.format("*** La traduzione di \"%s\" e' stata aggiunta correttamente al dizionario! ***\n %s", 
+    			newAlienWord, this.manager.getTranslationOf(newAlienWord));
     	this.textArea.setText(message);
     }
     

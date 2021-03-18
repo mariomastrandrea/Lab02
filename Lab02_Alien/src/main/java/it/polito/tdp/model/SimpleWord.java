@@ -14,14 +14,25 @@ public class SimpleWord extends Word
 	@Override
 	public String printTranslations()
 	{
-		return String.format("Unica traduzione di \"%s\":\t%s", this.getAlienWord(), this.translatedWord); 
+		return String.format("Unica traduzione di \"%s\":  \"%s\"", this.getAlienWord(), this.translatedWord); 
 	}
 	
 	@Override
 	public boolean addTranslation(String overwriteWord)
 	{
-		this.translatedWord = overwriteWord;	
-		return false;
+		if(this.translatedWord.equals(overwriteWord))
+			return false;	//not added
+		else
+		{
+			this.translatedWord = overwriteWord;	
+			return true;	//added
+		}
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("\"%s\"\t-->\t\"%s\"", super.getAlienWord(), this.translatedWord);
 	}
 	
 }

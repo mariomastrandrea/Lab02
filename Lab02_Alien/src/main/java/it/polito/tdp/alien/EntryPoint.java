@@ -15,9 +15,8 @@ public class EntryPoint extends Application
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene_Lab02.fxml"));
         Parent root = loader.load();
    
-        AlienWordsManager managerModel = new AlienWordsManager();
         FXMLController alienController = loader.getController();
-        alienController.setModel(managerModel);
+        alienController.setModel(AlienWordsManager.instance());
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");

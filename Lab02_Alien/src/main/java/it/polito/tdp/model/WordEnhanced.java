@@ -17,11 +17,16 @@ public class WordEnhanced extends Word
 	@Override
 	public boolean addTranslation(String newTranslation)
 	{
-		return this.translations.add(newTranslation);
+		return this.translations.add(newTranslation);	//added or not added
 	}
 
 	@Override
 	public String printTranslations()
+	{
+		return String.format("Traduzioni di \"%s\":  %s", super.getAlienWord(), this.getTranslations());
+	}
+	
+	private String getTranslations()
 	{
 		StringBuilder list = new StringBuilder();
 		for(String word : translations)
@@ -29,9 +34,15 @@ public class WordEnhanced extends Word
 			if(list.length() > 0)
 				list.append(", ");
 			
-			list.append(word);
+			list.append('\"').append(word).append('\"');
 		}
-		return String.format("Traduzioni di \"%s\":\t%s", super.getAlienWord(), list);
+		return list.toString();
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("\"%s\"\t-->\t%s", super.getAlienWord(), this.getTranslations());
 	}
 
 }
